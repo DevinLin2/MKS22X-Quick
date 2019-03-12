@@ -5,9 +5,15 @@ public class Quick {
   private static Random randgen = new Random();
 
   public static void main(String[] args) {
-    int[] data = new int[] {2, 5, 123, 245, 33, 454, 12, 425, 12, 3543, 11, 33, 52};
-    System.out.println(partition(data, 0, data.length -1));
-    System.out.println(Arrays.toString(data));
+    int[] data = new int[] {2, 10, 15, 23, 0,  5};
+    // System.out.println(partition(data, 0, data.length -1));
+    // System.out.println(Arrays.toString(data));
+    System.out.println(quickselect(data, 0));
+    System.out.println(quickselect(data, 1));
+    System.out.println(quickselect(data, 2));
+    System.out.println(quickselect(data, 3));
+    System.out.println(quickselect(data, 4));
+    System.out.println(quickselect(data, 5));
   }
   /*Modify the array such that:
   *1. Only the indices from start to end inclusive are considered in range
@@ -23,7 +29,6 @@ public class Quick {
     int temp = 0;
     int s = start;
     int e = end;
-    System.out.println("pivot: " + pivot);
     // swap start and the pivot if they are different index else move start up one
     if (pivotIndex != s) {
       data[pivotIndex] = data[s];
@@ -65,6 +70,21 @@ public class Quick {
   }
   // return the value that is the kth smallest value of the array.
   public static int quickselect(int[] data, int k) {
-    return -1; // so it compiles
+    int start = 0;
+    int end = data.length - 1;
+    int index = partition(data, start, end);;
+    while (index != k) {
+      if (index < k) {
+        start = index + 1;
+      }
+      if (index > k) {
+        end = index - 1;
+      }
+      if (start == end) {
+        return data[start];
+      }
+      index = partition(data, start, end);
+    }
+    return data[k];
   }
 }
