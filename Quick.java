@@ -5,8 +5,10 @@ public class Quick {
   private static Random randgen = new Random();
 
   public static void main(String[] args) {
-    int[] data = new int[] {2, 5, 123, 245, 33, 454, 12, 425, 12, 3543, 11, 33, 52};
-    System.out.println(partition(data, 0, data.length -1));
+    int[] data = new int[] {2, 10, 15, 23, 0,  5};
+    // System.out.println(partition(data, 0, data.length -1));
+    // System.out.println(Arrays.toString(data));
+    System.out.println(quickselect(data, 3));
     System.out.println(Arrays.toString(data));
   }
   /*Modify the array such that:
@@ -23,7 +25,6 @@ public class Quick {
     int temp = 0;
     int s = start;
     int e = end;
-    System.out.println("pivot: " + pivot);
     // swap start and the pivot if they are different index else move start up one
     if (pivotIndex != s) {
       data[pivotIndex] = data[s];
@@ -65,6 +66,16 @@ public class Quick {
   }
   // return the value that is the kth smallest value of the array.
   public static int quickselect(int[] data, int k) {
-    return -1; // so it compiles
+    int pIndex = partition(data, 0, data.length - 1); // pIndex is a random index from 0 to data.length if we get lucky we get the ans in one go
+
+    while (pIndex != k) {
+      if (pIndex < k) {
+        return quickselect(data[pIndex, data.length - 1], k);
+      }
+      if (pIndex > k) {
+        return quickselect(data[0, pIndex], k);
+      }
+    }
+    return data[pIndex];
   }
 }
