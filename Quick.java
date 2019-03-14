@@ -5,10 +5,19 @@ public class Quick {
   private static Random randgen = new Random();
 
   public static void main(String[] args) {
-    int[] data = new int[] {2, 10, 15, 23, 0,  5};
+    int[] data = new int[30];
+    for (int i = 0; i < data.length; i++) {
+      data[i] = Math.abs(randgen.nextInt() % 100);
+    }
     // System.out.println(partition(data, 0, data.length -1));
     // System.out.println(Arrays.toString(data));
-    System.out.println(quickselect(data, 3));
+    // System.out.println(quickselect(data, 0));
+    // System.out.println(quickselect(data, 1));
+    // System.out.println(quickselect(data, 2));
+    // System.out.println(quickselect(data, 3));
+    // System.out.println(quickselect(data, 4));
+    // System.out.println(quickselect(data, 5));
+    quicksort(data);
     System.out.println(Arrays.toString(data));
   }
   /*Modify the array such that:
@@ -66,16 +75,36 @@ public class Quick {
   }
   // return the value that is the kth smallest value of the array.
   public static int quickselect(int[] data, int k) {
-    int pIndex = partition(data, 0, data.length - 1); // pIndex is a random index from 0 to data.length if we get lucky we get the ans in one go
-
-    while (pIndex != k) {
-      if (pIndex < k) {
-        return quickselect(data[pIndex, data.length - 1], k);
-      }
-      if (pIndex > k) {
-        return quickselect(data[0, pIndex], k);
-      }
+    if (data.length == 1) {
+      return data[0];
     }
-    return data[pIndex];
+    int start = 0;
+    int end = data.length - 1;
+    int index = partition(data, start, end);
+    while (index != k) {
+      if (index < k) {
+        start = index + 1;
+      }
+      if (index > k) {
+        end = index - 1;
+      }
+      if (start == end) {
+        return data[start];
+      }
+      index = partition(data, start, end);
+    }
+    return data[k];
+  }
+  // Modify the array in increasing order
+  public static void quicksort(int[] data) {
+    quicksortH(data, 0, data.length - 1);
+  }
+  private static void quicksortH(int[] data, int start, int end) {
+    if (start >= end) {
+      return;
+    }
+    int pivot = partition(data, start, end);
+    quicksortH(data, start, pivot - 1);
+    quicksortH(data, pivot + 1, end);
   }
 }
