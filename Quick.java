@@ -18,7 +18,9 @@ public class Quick {
     // System.out.println(quickselect(data, 4));
     // System.out.println(quickselect(data, 5));
     quicksort(data);
+    // System.out.println(partition(data, 0, data.length-1));
     System.out.println(Arrays.toString(data));
+    System.out.println(isSorted(data));
   }
   /*Modify the array such that:
   *1. Only the indices from start to end inclusive are considered in range
@@ -28,12 +30,13 @@ public class Quick {
   *4. all elements in range that are larger than the pivot element are placed after the pivot element.
   *@return the index of the final position of the pivot element.
   */
-  private static int partition (int [] data, int start, int end) {
+  private static int partition (int[] data, int start, int end) {
     int pivotIndex = Math.abs(randgen.nextInt() % (end - start + 1)) + start;
     int pivot = data[pivotIndex];
     int temp = 0;
     int s = start;
     int e = end;
+    // System.out.println("pivot: " + pivot);
     // swap start and the pivot if they are different index else move start up one
     if (pivotIndex != s) {
       data[pivotIndex] = data[s];
@@ -59,14 +62,14 @@ public class Quick {
       }
     }
     for (int i = start+1; i <= end; i++) {
-      if (pivot <= data[i]) {
+      if (pivot < data[i]) {
         pivotIndex = i - 1;
         temp = data[pivotIndex];
         data[pivotIndex] = pivot;
         data[start] = temp;
         return pivotIndex;
       }
-    }// if this loop runs without doing anything then the pivot is the largest number
+    }// if this loop runs without returning anything then the pivot is the largest number
     temp = data[end];
     pivotIndex = end;
     data[end] = pivot;
@@ -106,5 +109,14 @@ public class Quick {
     int pivot = partition(data, start, end);
     quicksortH(data, start, pivot - 1);
     quicksortH(data, pivot + 1, end);
+  }
+
+  private static boolean isSorted(int[] data) {
+    for (int i = 1; i < data.length; i++) {
+      if (data[i] < data[i-1]) {
+        return false;
+      }
+    }
+    return true;
   }
 }
